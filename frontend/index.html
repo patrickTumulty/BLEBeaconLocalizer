@@ -12,16 +12,11 @@
     <div class="centered">
         <button onclick="showPage('chart-view-container')">Main Graphs</button>
         <button onclick="showPage('details')">Details</button>
+        <button onclick="showPage('points')">Points</button>
     </div>
 
     <div id="chart-view-container" class="page active centered">
-        <div id=main>
-            <canvas id="chart1"></canvas>
-            <canvas id="chart2"></canvas>
-            <canvas id="chart3"></canvas>
-            <canvas id="chart4"></canvas>
-            <canvas id="chart5"></canvas>
-            <canvas id="chart6"></canvas>
+        <div id="chart-view">
         </div>
     </div>
 
@@ -30,7 +25,13 @@
         <p>Other data goes here...</p>
     </div>
 
-    <script src="src/js/chart_controller.js"></script>
+    <div id="points" class="page">
+        <div class="point" style="left: 100px; top: 100px;">A</div>
+        <div class="point" style="left: 300px; top: 200px;">B</div>
+        <div class="point" style="left: 200px; top: 400px;">C</div>
+    </div>
+
+    <script type="module" src="src/js/index.js"></script>
 </body>
 
 </html>

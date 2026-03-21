@@ -1,3 +1,13 @@
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    overflow: hidden;
+    position: relative;
+}
+
 .page {
     display: none;
 }
@@ -14,10 +24,10 @@ button {
 .centered {
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    width: 70%;
 }
 
-#main {
+#chart-view {
     display: grid;
     /* enable grid layout */
     grid-template-columns: repeat(3, 1fr);
@@ -28,13 +38,28 @@ button {
     /* optional padding around grid */
 }
 
-#main canvas {
+#chart-view canvas {
     width: 100%;
     /* make each canvas fill its grid cell */
     height: 200px;
     /* fixed height or adjust as needed */
-    max-width: 300px;
+    max-width: 400px;
     max-height: 300px;
     border: 1px solid #ccc;
     /* optional for visibility */
+}
+
+.point {
+    width: 20px;
+    height: 20px;
+    background-color: #ff4500;
+    border-radius: 50%;
+    position: absolute;
+    cursor: grab;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 10px;
+    user-select: none;
 }
