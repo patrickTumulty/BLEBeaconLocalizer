@@ -1,0 +1,40 @@
+.page {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+button {
+    margin: 5px;
+    width: 100px;
+}
+
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+#main {
+    display: grid;
+    /* enable grid layout */
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns of equal width */
+    gap: 20px;
+    /* space between items */
+    padding: 20px;
+    /* optional padding around grid */
+}
+
+#main canvas {
+    width: 100%;
+    /* make each canvas fill its grid cell */
+    height: 200px;
+    /* fixed height or adjust as needed */
+    max-width: 300px;
+    max-height: 300px;
+    border: 1px solid #ccc;
+    /* optional for visibility */
+}

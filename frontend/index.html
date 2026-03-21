@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ESP32 Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+
+<body>
+
+    <div class="centered">
+        <button onclick="showPage('chart-view-container')">Main Graphs</button>
+        <button onclick="showPage('details')">Details</button>
+    </div>
+
+    <div id="chart-view-container" class="page active centered">
+        <div id=main>
+            <canvas id="chart1"></canvas>
+            <canvas id="chart2"></canvas>
+            <canvas id="chart3"></canvas>
+            <canvas id="chart4"></canvas>
+            <canvas id="chart5"></canvas>
+            <canvas id="chart6"></canvas>
+        </div>
+    </div>
+
+    <div id="details" class="page">
+        <h2>Details</h2>
+        <p>Other data goes here...</p>
+    </div>
+
+    <script src="src/js/chart_controller.js"></script>
+</body>
+
+</html>
