@@ -1,0 +1,13 @@
+{
+    "name": "ARM64 Cross Dev",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "."
+    },
+    "remoteUser": "root",
+    "workspaceFolder": "/workspace",
+    "postCreateCommand": "chsh -s /usr/bin/zsh root",
+    "mounts": [
+        "source=${localEnv:HOME}/.config/nvim,target=/root/.config/nvim,type=bind"
+    ]
+}
