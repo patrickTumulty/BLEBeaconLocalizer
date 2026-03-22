@@ -1,0 +1,6 @@
+[submodule "submodules/websocketpp"]
+	path = submodules/websocketpp
+	url = git@github.com:zaphoyd/websocketpp.git
+[submodule "submodules/asio"]
+	path = submodules/asio
+	url = git@github.com:chriskohlhoff/asio.git
