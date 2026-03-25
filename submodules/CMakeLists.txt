@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(submodules)
 
+add_subdirectory(zlib)
+
 ################################################################################
 # ASIO
 ################################################################################
@@ -13,7 +15,6 @@ target_include_directories(asio INTERFACE asio/asio/include)
 ################################################################################
 # uWebSockets
 ################################################################################
-find_package(ZLIB REQUIRED)
 find_package(Threads REQUIRED)
 
 set(UWS_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/uWebSockets)
