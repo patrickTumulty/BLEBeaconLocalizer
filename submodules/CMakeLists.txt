@@ -11,15 +11,37 @@ target_include_directories(asio INTERFACE asio/asio/include)
 ################################################################################
 
 ################################################################################
-# Websocket++
+# uWebSockets
 ################################################################################
-add_library(websocketpp_lib INTERFACE)
-target_include_directories(websocketpp_lib INTERFACE
-    ${CMAKE_CURRENT_SOURCE_DIR}/websocketpp
+find_package(ZLIB REQUIRED)
+find_package(Threads REQUIRED)
+
+set(UWS_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/uWebSockets)
+set(USOCK_DIR ${UWS_DIR}/uSockets/src)
+
+file(GLOB USOCKETS_SOURCES
+    ${USOCK_DIR}/*.c
+    ${USOCK_DIR}/eventing/*.c
 )
-target_compile_definitions(websocketpp_lib INTERFACE
-    ASIO_STANDALONE
-    _WEBSOCKETPP_CPP11_STL_
+
+add_library(uSockets STATIC ${USOCKETS_SOURCES})
+
+target_include_directories(uSockets PUBLIC
+    ${USOCK_DIR}
 )
-target_link_libraries(websocketpp_lib INTERFACE asio)
+
+target_compile_definitions(uSockets PUBLIC
+    LIBUS_NO_SSL
+)
+
+target_link_libraries(uSockets PUBLIC
+    ZLIB::ZLIB
+    Threads::Threads
+)
+
+add_library(uWebSockets INTERFACE)
+
+target_include_directories(uWebSockets INTERFACE ${UWS_DIR}/src)
+
+target_link_libraries(uWebSockets INTERFACE uSockets)
 ################################################################################

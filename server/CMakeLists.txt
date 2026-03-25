@@ -7,10 +7,11 @@ file(GLOB SOURCES src/main.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC websocketpp_lib asio)
+find_package(Threads REQUIRED)
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE 
-    _WEBSOCKETPP_CPP11_STL_
-    ASIO_STANDALONE
+target_link_libraries(${PROJECT_NAME} PUBLIC 
+    uWebSockets
+    asio
 )
+    
 

@@ -1,32 +1,30 @@
+#include "App.h"
 #include <iostream>
-#include <asio.hpp>
-#include <websocketpp/config/asio_no_tls.hpp>
-#include <websocketpp/server.hpp>
+#include <string_view>
 
-typedef websocketpp::server<websocketpp::config::asio> server;
-
-void on_message(server *s, websocketpp::connection_hdl hdl, server::message_ptr msg)
+struct PerSocketData
 {
-    s->send(hdl, msg->get_payload(), msg->get_opcode());
-}
+};
 
 int main()
 {
-    server echo_server;
+    uWS::App()
+        .ws<struct PerSocketData>("/*", {.open = [](auto *ws) { std::cout << "Client connected\n"; },
+                                         .message = [](auto *ws, std::string_view message, uWS::OpCode opCode) {
+                // Echo the message back
+                ws->send(message, opCode); },
+                                         .close = [](auto *ws, int code, std::string_view message) { std::cout << "Client disconnected\n"; }})
+        .listen(9001, [](auto *listenSocket) {
+            if (listenSocket)
+            {
+                std::cout << "Listening on port 9001\n";
+            }
+            else
+            {
+                std::cerr << "Failed to listen on port 9001\n";
+            }
+        })
+        .run();
 
-    try
-    {
-        echo_server.init_asio();
-        echo_server.set_message_handler(bind(&on_message, &echo_server, std::placeholders::_1, std::placeholders::_2));
-
-        echo_server.listen(9002);
-        echo_server.start_accept();
-
-        std::cout << "Server started on port 9002..." << std::endl;
-        echo_server.run();
-    }
-    catch (websocketpp::exception const &e)
-    {
-        std::cout << e.what() << std::endl;
-    }
+    return 0;
 }
