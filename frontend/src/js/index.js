@@ -22,19 +22,26 @@ const chartsMap = new Map();
 const ws = new WebSocket("ws://localhost:9000");
 
 ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
 
-    const messageType = data["messageType"]
+    console.log(event.data)
 
-    switch (messageType) {
-        case REPORT_ANCHORS.id:
-            handleReportAnchors(data);
-            break;
-        case REPORT_ANCHOR_TELEMETRY.id:
-            handleReportNodesData(data);
-            break;
+    // const dataView = new DataView(event.data);
+    //
+    // console.log("Received: " + dataView.getUint32());
 
-    }
+    // const data = JSON.parse(event.data);
+    //
+    // const messageType = data["messageType"]
+    //
+    // switch (messageType) {
+    //     case REPORT_ANCHORS.id:
+    //         handleReportAnchors(data);
+    //         break;
+    //     case REPORT_ANCHOR_TELEMETRY.id:
+    //         handleReportNodesData(data);
+    //         break;
+    //
+    // }
 };
 
 const points = document.querySelectorAll('.point');

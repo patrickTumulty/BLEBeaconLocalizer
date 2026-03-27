@@ -8,15 +8,15 @@ AlignArrayOfStructures: Right
 AllowAllArgumentsOnNextLine: false
 AllowAllConstructorInitializersOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortBlocksOnASingleLine: Always
+AllowShortBlocksOnASingleLine: Never 
 AllowShortCaseLabelsOnASingleLine: true
-AllowShortFunctionsOnASingleLine: All
-AllowShortIfStatementsOnASingleLine: Always
-AllowShortLambdasOnASingleLine: All
-AllowShortLoopsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: None 
+AllowShortIfStatementsOnASingleLine: Never 
+AllowShortLambdasOnASingleLine: None 
+AllowShortLoopsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
 AlwaysBreakAfterReturnType: None
 AlwaysBreakTemplateDeclarations: Yes
-BreakBeforeBraces: Custom
 BraceWrapping:
   AfterCaseLabel: false
   AfterClass: true
@@ -29,8 +29,10 @@ BraceWrapping:
   BeforeCatch: true
   BeforeElse: true 
   IndentBraces: false
+  BeforeLambdaBody: true
   SplitEmptyFunction: false
   SplitEmptyRecord: true
+BreakBeforeBraces: Custom
 BreakBeforeBinaryOperators: None
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializers: BeforeColon
