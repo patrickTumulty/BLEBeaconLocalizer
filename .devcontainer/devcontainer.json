@@ -4,9 +4,18 @@
         "dockerfile": "Dockerfile",
         "context": "."
     },
+    "runArgs": [
+        "--privileged",
+        "-v",
+        "/dev/bus/usb:/dev/bus/usb"
+    ],
     "remoteUser": "root",
     "workspaceFolder": "/workspace",
     "postCreateCommand": "chsh -s /usr/bin/zsh root",
+    "forwardPorts": [
+        8080,
+        8090
+    ],
     "mounts": [
         "source=${localEnv:HOME}/.config/nvim,target=/root/.config/nvim,type=bind"
     ]

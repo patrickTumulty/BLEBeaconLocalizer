@@ -1,6 +1,8 @@
 FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN echo "deb [trusted=yes] https://dl.espressif.com/dl/eim/apt/ stable main" | tee /etc/apt/sources.list.d/espressif.list
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
@@ -19,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     ninja-build \
     htop \
     tree \
+    eim-cli \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace
@@ -37,12 +40,8 @@ RUN echo '\n\
 autoload -U colors && colors\n\
 setopt PROMPT_SUBST\n\
 PROMPT="%F{green}%n%f@%F{blue}%~%f $ "\n\
-# ASCII banner on login\n\
-if [[ -o login ]]; then\n\
-  clear\n\
-  figlet "ARM64 DEV" \n\ 
-  echo "Let's Gooooo 🚀"\n\
-fi\n\
 ' >> /root/.zshrc
+
+WORKDIR /workspace
 
 CMD ["/usr/bin/zsh"]
