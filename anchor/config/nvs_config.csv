@@ -1,0 +1,5 @@
+key,type,encoding,value
+net_config,namespace,,
+last_octet,data,u8,$OCTET
+wifi_ssid,data,string,DirtyBirdyEstate
+wifi_pass,data,string,huskycartoon113

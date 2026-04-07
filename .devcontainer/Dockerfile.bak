@@ -1,0 +1,61 @@
+FROM ubuntu:24.04
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    python3 \
+    python3-pip \
+    python3-venv \
+    git \
+    wget \
+    curl \
+    pkg-config \
+    gcc-aarch64-linux-gnu \
+    g++-aarch64-linux-gnu \
+    zsh \
+    lolcat \
+    ninja-build \
+    htop \
+    tree \
+    minicom \
+    screen \
+    gdb-arm-none-eabi \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+
+# Install Node.js 20 LTS
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get update && \
+    apt-get install -y nodejs && \
+    npm install -g npm@latest
+
+# Install rustup (non-interactive)
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+# Add Cargo to PATH
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Install ESP-IDF v6.0
+RUN git clone --branch v6.0 --depth 1 https://github.com/espressif/esp-idf.git /opt/esp-idf
+RUN cd /opt/esp-idf && \
+    pip3 install --break-system-packages -r requirements.txt && \
+    echo "source /opt/esp-idf/export.sh" >> /root/.zshrc
+
+# Install esptool
+RUN pip3 install esptool --break-system-packages
+
+# Verify installs
+RUN rustc --version && cargo --version && node --version && npm --version
+
+RUN echo '\n\
+# Basic colored prompt\n\
+autoload -U colors && colors\n\
+setopt PROMPT_SUBST\n\
+PROMPT="%F{green}%n%f@%F{blue}%~%f $ "\n\
+' >> /root/.zshrc
+
+WORKDIR /workspace
+
+CMD ["/usr/bin/zsh"]

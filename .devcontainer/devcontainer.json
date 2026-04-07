@@ -1,22 +1,26 @@
 {
-    "name": "ARM64 Cross Dev",
+    "name": "ESP32 Dev (Ubuntu 24)",
     "build": {
         "dockerfile": "Dockerfile",
         "context": "."
     },
     "runArgs": [
         "--privileged",
+        "--network=host",
         "-v",
-        "/dev/bus/usb:/dev/bus/usb"
+        "/dev:/dev",
+        "-v",
+        "/run/udev:/run/udev:ro"
     ],
     "remoteUser": "root",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
     "workspaceFolder": "/workspace",
-    "postCreateCommand": "chsh -s /usr/bin/zsh root",
+    "postCreateCommand": "bash -c 'source ${IDF_PATH}/export.sh && idf.py --version && echo \"\n✅ ESP-IDF ready. Run: idf.py create-project my_app\n\"'",
     "forwardPorts": [
         8080,
         8090
     ],
     "mounts": [
-        "source=${localEnv:HOME}/.config/nvim,target=/root/.config/nvim,type=bind"
+        "source=${localEnv:HOME}/.config/nvim,target=/root/.config/nvim,type=bind,consistency=cached"
     ]
 }

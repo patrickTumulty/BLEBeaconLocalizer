@@ -1,3 +1,20 @@
-idf_component_register(SRCS "hello_world_main.c"
-                       PRIV_REQUIRES spi_flash
-                       INCLUDE_DIRS "")
+
+set(COMPONENTS
+    spi_flash 
+    esp_http_client 
+    esp_wifi
+    esp_event
+    nvs_flash
+    esp_netif
+)
+
+set(SOURCE_FILES 
+    anchor_main.c
+)
+
+idf_component_register(
+    SRCS ${SOURCE_FILES} 
+    PRIV_REQUIRES ${COMPONENTS}
+    INCLUDE_DIRS ""
+)
+
