@@ -1,7 +1,6 @@
 
 set(COMPONENTS
     spi_flash 
-    esp_http_client 
     esp_wifi
     esp_event
     nvs_flash

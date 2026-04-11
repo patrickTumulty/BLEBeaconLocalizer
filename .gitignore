@@ -3,4 +3,5 @@ venv/
 build/
 
 compile_commands.json
+*.bin
 
