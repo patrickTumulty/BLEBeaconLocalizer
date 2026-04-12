@@ -5,6 +5,7 @@ set(COMPONENTS
     esp_event
     nvs_flash
     esp_netif
+    shared-types
 )
 
 set(SOURCE_FILES 

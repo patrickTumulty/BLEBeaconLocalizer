@@ -16,7 +16,7 @@ endif()
 
 add_subdirectory(submodules)
 
-add_subdirectory(anchor-libs/shared_types)
+add_subdirectory(anchor-libs/shared-types)
 
 add_subdirectory(anchor-server)
 

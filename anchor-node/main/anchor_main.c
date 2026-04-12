@@ -6,6 +6,7 @@
 #include "freertos/event_groups.h"
 #include "freertos/task.h"
 #include "lwip/err.h"
+#include "message_types.h"
 #include "nvs.h"
 #include "nvs_flash.h"
 #include <stdint.h>
@@ -171,9 +172,14 @@ static void udp_server_task(void *pvParameters)
                 inet_ntoa_r(((struct sockaddr_in *) &source_addr)->sin_addr, addr_str, sizeof(addr_str) - 1);
             }
 
+            AnchorPacket packet = {0};
+            memcpy(&packet, rx_buffer, len);
+            ESP_LOGI(TAG, "PKT: magic=0x%X pktID=0x%X cmdID=0x%X",
+                     packet.header.magic, packet.header.pkt_id,
+                     packet.header.cmd_id);
+
             rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string...
             ESP_LOGI(TAG, "Received %d bytes from %s:", len, addr_str);
-            ESP_LOGI(TAG, "%s", rx_buffer);
 
             int err = sendto(sock, rx_buffer, len, 0, (struct sockaddr *) &source_addr, sizeof(source_addr));
             if (err < 0)

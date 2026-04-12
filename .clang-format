@@ -1,5 +1,8 @@
 # Generated from CLion C/C++ Code Style settings
 BasedOnStyle: LLVM
+PackConstructorInitializers: Never
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 4
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: None
@@ -29,7 +32,7 @@ BraceWrapping:
   BeforeCatch: true
   BeforeElse: true 
   IndentBraces: false
-  BeforeLambdaBody: true
+  BeforeLambdaBody: false 
   SplitEmptyFunction: false
   SplitEmptyRecord: true
 BreakBeforeBraces: Custom

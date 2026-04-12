@@ -2,7 +2,8 @@
 #ifndef MESSAGE_TYPES_H
 #define MESSAGE_TYPES_H
 
-#include <cstdint>
+#include <stdint.h>
+#include <stdbool.h>
 
 typedef enum
 {
