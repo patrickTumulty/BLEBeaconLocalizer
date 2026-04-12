@@ -4,6 +4,9 @@ BUILD_TYPE ?= Debug
 BUILD_DIR := build
 TARGET ?=
 
+CYAN=\033[1;36m
+RESET=\033[0m
+
 # Toolchain (used for non-x86)
 TOOLCHAIN_FILE := toolchains/arm64.cmake
 
@@ -21,26 +24,26 @@ endif
 all: build ## Build (default target)
 
 configure: ## Run CMake configure step
-	@echo "==> Configuring (ARCH=$(ARCH), TYPE=$(BUILD_TYPE))"
+	@echo "$(CYAN)==> Configuring (ARCH=$(ARCH), TYPE=$(BUILD_TYPE))$(RESET)"
 	$(CMAKE_CONFIGURE)
 
 build: configure ## Build project (optionally specify TARGET=...)
-	@echo "==> Building $(if $(TARGET),target '$(TARGET)',all targets)..."
+	@echo "$(CYAN)==> Building $(if $(TARGET),target '$(TARGET)',all targets)...$(RESET)"
 	cmake --build $(BUILD_DIR) $(if $(TARGET),--target $(TARGET),)
 	$(MAKE) link-compile-commands
 
 link-compile-commands: ## Symlink compile_commands.json to project root
-	@echo "==> Linking compile_commands.json"
+	@echo "$(CYAN)==> Linking compile_commands.json$(RESET)"
 	@ln -sf $(BUILD_DIR)/compile_commands.json ./compile_commands.json
 
 clean: ## Clean build artifacts (keeps CMake cache)
-	@echo "==> Cleaning build artifacts"
+	@echo "$(CYAN)==> Cleaning build artifacts$(RESET)"
 	cmake --build $(BUILD_DIR) --target clean || true
 
 rebuild: clean build ## Clean + rebuild
 
 nuke: ## Delete entire build directory + compile_commands.json
-	@echo "==> Nuking build directory ($(BUILD_DIR))"
+	@echo "$(CYAN)==> Nuking build directory ($(BUILD_DIR))$(RESET)"
 	rm -rf $(BUILD_DIR)
 	rm -f compile_commands.json
 
