@@ -40,8 +40,8 @@ void AnchorServer::asyncReceive()
                                        return;
                                    }
 
-                                   std::cout << "Sender: " << sender.address()
-                                             << "\n";
+                                   // std::cout << "Sender: " << sender.address()
+                                   //           << "\n";
 
                                    asyncReceive();
                                });
@@ -75,14 +75,14 @@ void AnchorServer::timerCallback()
     packet.header.pkt_size = sizeof(packet.header);
     packet.header.pkt_id = _packetCounter++;
 
-    std::cout << "Sending ping\n";
+    // std::cout << "Sending ping\n";
 
     _socket.async_send_to(asio::buffer(&packet, packet.header.pkt_size),
                           _bcastEndpoint,
                           [this](std::error_code ec, std::size_t bytes_sent) {
                               if (!ec)
                               {
-                                  std::cout << "UDP sent " << bytes_sent << " bytes\n";
+                                  // std::cout << "UDP sent " << bytes_sent << " bytes\n";
                               }
                               else
                               {

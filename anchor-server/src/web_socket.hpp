@@ -5,6 +5,6 @@
 #include <App.h>
 #include <unistd.h>
 
-uWS::App setupWebSocket();
+void SetupAndRunWebSocket();
 
 #endif // WEB_SOCKET_H

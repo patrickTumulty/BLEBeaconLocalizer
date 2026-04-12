@@ -1,5 +1,6 @@
 
 import { clearChildElements } from "./utils.js";
+import { WSProtocol } from "./messaging.js"
 
 class MessageType {
 
@@ -13,36 +14,87 @@ class MessageType {
     }
 }
 
+export function registerMac() {
+    const macInput = document.getElementById("mac")
+    console.log("Registering Beacom MAC: " + macInput.value)
+    let buffer = WSProtocol.createRegisterBeaconPacket(macInput.value)
+    WSProtocol.send(ws, buffer)
+}
+
+window.registerMac = registerMac;
+
 const REPORT_ANCHORS = new MessageType("Report Anchors", 1)
 const REPORT_ANCHOR_TELEMETRY = new MessageType("Report Anchor Telemetry", 2)
 const REPORT_TAGS = new MessageType("Report Tags", 3)
 
 const chartsMap = new Map();
 
-const ws = new WebSocket("ws://localhost:9000");
+let ws;
 
-ws.onmessage = (event) => {
+try {
+    console.log("Starting websocket")
 
-    console.log(event.data)
+    ws = new WebSocket("ws://localhost:11001");
+    ws.binaryType = 'arraybuffer';
 
-    // const dataView = new DataView(event.data);
-    //
-    // console.log("Received: " + dataView.getUint32());
+    ws.addEventListener('open', () => {
+        console.log('Connected');
 
-    // const data = JSON.parse(event.data);
-    //
-    // const messageType = data["messageType"]
-    //
-    // switch (messageType) {
-    //     case REPORT_ANCHORS.id:
-    //         handleReportAnchors(data);
-    //         break;
-    //     case REPORT_ANCHOR_TELEMETRY.id:
-    //         handleReportNodesData(data);
-    //         break;
-    //
-    // }
-};
+        console.log("Requesting beacons")
+        WSProtocol.send(ws, WSProtocol.createRequestBeaconsPacket())
+    });
+
+    ws.addEventListener('error', (err) => {
+        console.error('WebSocket error:', err);
+    });
+
+    ws.addEventListener('close', () => {
+        console.log('Connection closed');
+    });
+
+    ws.onmessage = (event) => {
+
+        const view = new Uint8Array(event.data)
+
+        if (view.length < 2) {
+            console.warn("Packet too small");
+            return null;
+        }
+
+        const cmdId = view[0];
+        const pktSize = view[1];
+
+        switch (cmdId) {
+            case WSProtocol.CMD.REGISTER_BEACON:
+                break;
+            case WSProtocol.CMD.REQUEST_BEACONS:
+                console.log("Beacons:", WSProtocol.decodeBeaconListResponse(view));
+                break;
+        }
+
+
+        // const dataView = new DataView(event.data);
+        //
+        // console.log("Received: " + dataView.getUint32());
+
+        // const data = JSON.parse(event.data);
+        //
+        // const messageType = data["messageType"]
+        //
+        // switch (messageType) {
+        //     case REPORT_ANCHORS.id:
+        //         handleReportAnchors(data);
+        //         break;
+        //     case REPORT_ANCHOR_TELEMETRY.id:
+        //         handleReportNodesData(data);
+        //         break;
+        //
+        // }
+    };
+
+} catch (err) {
+    console.error('Failed to create WebSocket:', err);
+}
 
 const points = document.querySelectorAll('.point');
 
@@ -170,3 +222,5 @@ function handleReportAnchors(data) {
 
     })
 }
+
+

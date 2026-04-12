@@ -1,4 +1,3 @@
-#include "App.h"
 #include "anchor_server.hpp"
 #include "web_socket.hpp"
 #include <asio.hpp>
@@ -7,8 +6,6 @@
 
 int main()
 {
-    uWS::App app = setupWebSocket();
-
     asio::io_context ioContext;
     AnchorServer *server;
 
@@ -18,14 +15,16 @@ int main()
     }
     catch (std::exception &e)
     {
-        delete server;
+        if (server)
+        {
+            delete server;
+        }
         std::cerr << "Error: " << e.what() << "\n";
         return 1;
     }
 
-    std::thread wsThread([&app]() {
-        std::cout << "Starting WebServer\n";
-        app.run();
+    std::thread wsThread([]() {
+        SetupAndRunWebSocket();
     });
 
     std::thread ioThread([&ioContext]() {

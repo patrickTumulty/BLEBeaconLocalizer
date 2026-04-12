@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" translate="no">
+
+<meta http-equiv="Content-Language" content="en">
 
 <head>
     <title>ESP32 Dashboard</title>
@@ -13,6 +15,7 @@
         <button onclick="showPage('chart-view-container')">Main Graphs</button>
         <button onclick="showPage('details')">Details</button>
         <button onclick="showPage('points')">Points</button>
+        <button onclick="showPage('beacons')">Beacons</button>
     </div>
 
     <div id="chart-view-container" class="page active centered">
@@ -29,6 +32,43 @@
         <div class="point" style="left: 100px; top: 100px;">A</div>
         <div class="point" style="left: 300px; top: 200px;">B</div>
         <div class="point" style="left: 200px; top: 400px;">C</div>
+    </div>
+
+    <div id="beacons" class="page">
+        <h2>Beacons</h2>
+        <p>Register BLE Beacons</p>
+
+
+        <input type="text" id="mac" maxlength="17" placeholder="00:1A:2B:3C:4D:5E">
+
+        <script>
+            const macInput = document.getElementById('mac');
+
+            function formatMac(value) {
+                return value
+                    .replace(/[^0-9A-Fa-f]/g, '')   // remove non-hex
+                    .toUpperCase()
+                    .match(/.{1,2}/g)?.join(':') || '';
+            }
+
+            // Handle typing
+            macInput.addEventListener('input', (e) => {
+                const formatted = formatMac(e.target.value);
+                e.target.value = formatted.substring(0, 17);
+            });
+
+            // Handle paste explicitly
+            macInput.addEventListener('paste', (e) => {
+                e.preventDefault(); // stop default paste
+                const pasted = (e.clipboardData || window.clipboardData).getData('text');
+                const formatted = formatMac(pasted);
+                macInput.value = formatted.substring(0, 17);
+            });
+        </script>
+
+
+
+        <button onclick="registerMac()">Register</button>
     </div>
 
     <script type="module" src="src/js/index.js"></script>
