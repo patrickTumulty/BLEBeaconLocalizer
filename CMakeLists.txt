@@ -16,5 +16,7 @@ endif()
 
 add_subdirectory(submodules)
 
+add_subdirectory(libs/shared_types)
+
 add_subdirectory(server)
 
